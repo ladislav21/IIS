@@ -4,6 +4,7 @@ let currentQuestionIndex = 0;
 let answers = [];
 let confidence = 50;
 let recommendedShow = null;
+let systemConfidence = 23;
 
 const screens = {
     start: document.getElementById('startScreen'),
@@ -140,35 +141,21 @@ function handleAnswer(answer) {
 function findRecommendation() {
     const path = answers.map(a => a.answer);
     const recommendations = knowledgeBase.recommendations[currentBranch];
-    const match = recommendations.find(rec =>
-        rec.path.length === path.length &&
-        rec.path.every((p, i) => p === path[i])
-    );
-    if (!match) {
-        let matchCounter = 0;
-        for (let i = 0; i < recommendations.length; i++) {
-            matchCounter = 0;
-            for (let j = 0; j < path.length; j++) {
-                if (path[j] === recommendations[i].path[j]) {
-                    matchCounter++;
-                    console.log(matchCounter);
-                }
-                if (matchCounter > 2) {
-                    console.log("Вход в проверку");
-                    recommendedShow = recommendations[i].show;
-                    console.log(recommendedShow);
-                    j = path.length;
-                    i = recommendations.length;
-                }
+    recommendedShow = recommendations[0].show;
+    let matchCounter = 0;
+    let matchCounterMax = -1;
+    for (let i = 0; i < recommendations.length; i++) {
+        matchCounter = 0;
+        for (let j = 0; j < path.length; j++) {
+            if (path[j] === recommendations[i].path[j]) {
+                matchCounter++;
             }
         }
-        if (!recommendedShow) {
-            recommendedShow = recommendations[0].show;
-            console.log(recommendedShow);
+        if (matchCounter > matchCounterMax) {
+            systemConfidence = matchCounter * 20;
+            recommendedShow = recommendations[i].show;
+            matchCounterMax = matchCounter;
         }
-    } else {
-        recommendedShow = match.show;
-        console.log(recommendedShow);
     }
 }
 
@@ -178,6 +165,9 @@ function showResult() {
     elements.showTitle.textContent = recommendedShow.title;
 
     elements.showDetails.innerHTML = `
+                <div class="detail-item">
+                    <span>Уверенность выбора: ${systemConfidence}%</span>
+                </div>
                 <div class="detail-item">
                     <span>Рейтинг Кинопоиска: ${recommendedShow.rating}</span>
                 </div>
