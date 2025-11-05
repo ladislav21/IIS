@@ -4,7 +4,7 @@ let currentQuestionIndex = 0;
 let answers = [];
 let confidence = 50;
 let recommendedShow = null;
-let systemConfidence = 23;
+let systemConfidence = 0;
 
 const screens = {
     start: document.getElementById('startScreen'),
@@ -198,3 +198,4 @@ function showResult() {
 
     showScreen('result');
 }
+
