@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Экспертная система выбора сериала</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+    <script src="database.js" defer></script>
+</head>
+<body>
+    <div class="container">
+        <div id="startScreen" class="screen active">
+            <div class="header">
+                <img class="icon" src="svg/tv.svg" alt="За стеклом">
+                <h1>Экспертная система выбора сериала</h1>
+                <div class="developer">Разработчик: Чесноков В.С. ЭПИ-412</div>
+            </div>
+
+            <div class="input-group">
+                <label for="userName">Введите ваше имя:</label>
+                <input type="text" id="userName" placeholder="Ваше имя">
+            </div>
+
+            <button id="startBtn" class="btn btn-primary">Начать</button>
+        </div>
+
+        <div id="questionsScreen" class="screen">
+            <div class="question-header">
+                <div class="question-number" id="questionCounter"></div>
+                <button class="exit-btn" id="exitBtn">Выход</button>
+            </div>
+
+            <div class="question-text">
+                <img class="icon" src="svg/tv.svg" alt="За стеклом">
+                <div class="question-title" id="questionText">Какой жанр вас интересует?</div>
+            </div>
+
+            <div class="confidence-section">
+                <div class="confidence-label">
+                    <span>Уверенность:&nbsp<span class="confidence-value" id="confidenceValue">50%</span></span>
+                </div>
+                <input type="range" id="confidenceSlider" class="slider" min="0" max="100" value="50">
+            </div>
+
+            <div class="options-grid" id="optionsGrid"></div>
+        </div>
+
+        <div id="resultScreen" class="screen">
+            <div class="result-header">
+                <img class="icon" src="svg/tv.svg" alt="За стеклом">
+                <h2 class="result-title" id="resultGreeting"></h2>
+                <p class="result-subtitle">На основе ваших ответов мы подобрали идеальный российский сериал для вас!</p>
+            </div>
+
+            <div class="result-content">
+                <div class="show-info">
+                    <h3 class="show-title" id="showTitle">Название сериала</h3>
+                    <div class="show-details" id="showDetails"></div>
+                    <p class="show-description" id="showDescription">Описание сериала</p>
+                </div>
+
+                <div class="answers-history">
+                    <div class="history-header">
+                        <h3 class="history-title">История ответов</h3>
+                    </div>
+                    <div class="history-list" id="answersList"></div>
+                </div>
+            </div>
+
+            <button id="restartBtn" class="btn btn-primary">Начать заново</button>
+        </div>
+    </div>
+</body>
+</html>
